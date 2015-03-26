@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rel_por_data" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="743"/>
+	<property name="ireport.y" value="230"/>
+	<parameter name="data_inicial" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="data_final" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="id" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="logo" class="java.lang.Object"/>
+	<parameter name="super_logo" class="java.lang.Object"/>
+	<queryString>
+		<![CDATA[SELECT
+     diario.num_faltosos AS diario_num_faltosos,
+     diario.percentFalta AS diario_percentFalta,
+     diario.data_diario AS diario_data_diario,
+     escola.nomeEscola AS escola_nomeEscola,
+     serie.serie AS serie_serie,
+     turma.nome_turma AS turma_nome_turma,
+     turma.num_alunos AS turma_num_alunos,
+     turno.nome_turno AS turno_nome_turno
+FROM
+      diario INNER JOIN turma ON diario.turma_id = turma.id
+      INNER JOIN escola ON diario.escola_id = escola.id
+      INNER JOIN serie ON diario.turma_id = serie.id
+      INNER JOIN turno ON diario.turma_id = turno.id
+
+WHERE
+      diario.data_diario BETWEEN $P{data_inicial} AND $P{data_final}]]>
+	</queryString>
+	<field name="diario_data_diario" class="java.sql.Date"/>
+	<field name="escola_nomeEscola" class="java.lang.String"/>
+	<field name="serie_serie" class="java.lang.Integer"/>
+	<field name="turma_nome_turma" class="java.lang.String"/>
+	<field name="turno_nome_turno" class="java.lang.String"/>
+	<field name="turma_num_alunos" class="java.lang.Integer"/>
+	<field name="diario_num_faltosos" class="java.lang.Integer"/>
+	<field name="diario_percentFalta" class="java.lang.Double"/>
+	<variable name="contaFaltosos" class="java.lang.Integer" calculation="Count">
+		<variableExpression><![CDATA[$F{diario_num_faltosos}]]></variableExpression>
+		<initialValueExpression><![CDATA[null]]></initialValueExpression>
+	</variable>
+	<variable name="somaFaltosos" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{diario_num_faltosos}]]></variableExpression>
+		<initialValueExpression><![CDATA[null]]></initialValueExpression>
+	</variable>
+	<variable name="media" class="java.lang.Double" calculation="Average">
+		<variableExpression><![CDATA[$F{diario_percentFalta}]]></variableExpression>
+	</variable>
+	<variable name="dt_inicial" class="java.util.Date" calculation="First">
+		<variableExpression><![CDATA[$F{diario_data_diario}]]></variableExpression>
+		<initialValueExpression><![CDATA[null]]></initialValueExpression>
+	</variable>
+	<variable name="dt_final" class="java.util.Date" incrementType="Column">
+		<variableExpression><![CDATA[$F{diario_data_diario}]]></variableExpression>
+		<initialValueExpression><![CDATA[null]]></initialValueExpression>
+	</variable>
+	<group name="escola_nomeEscola">
+		<groupExpression><![CDATA[$F{escola_nomeEscola}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="61" splitType="Stretch">
+			<image>
+				<reportElement x="37" y="21" width="190" height="38"/>
+				<imageExpression class="java.lang.String"><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="331" y="10" width="100" height="28"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SAINF]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="256" y="41" width="273" height="20"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Sistema de Acompanhamento de Infrequência]]></text>
+			</staticText>
+			<image>
+				<reportElement x="590" y="9" width="190" height="45"/>
+				<imageExpression class="java.lang.String"><![CDATA[$P{super_logo}]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="36" splitType="Stretch">
+			<staticText>
+				<reportElement x="283" y="8" width="205" height="20"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[RELATÓRIO DE INFREQUÊNCIA GERAL]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="31" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="10" width="802" height="20" forecolor="#FFFFFF" backcolor="#78BE78"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="15" y="11" width="39" height="20" forecolor="#FFFFFF"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="138" y="11" width="61" height="20" forecolor="#FFFFFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Escola]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="282" y="11" width="46" height="20" forecolor="#FFFFFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Série]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="364" y="11" width="54" height="20" forecolor="#FFFFFF"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Turma]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="487" y="11" width="49" height="20" forecolor="#FFFFFF"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Turno]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="554" y="11" width="85" height="20" forecolor="#FFFFFF"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Enturmados]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="644" y="11" width="64" height="20" forecolor="#FFFFFF"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Faltosos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="709" y="11" width="79" height="20" forecolor="#FFFFFF"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[% de Faltas]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="29" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="7" y="3" width="66" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.util.Date"><![CDATA[$F{diario_data_diario}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="96" y="3" width="188" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{escola_nomeEscola}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="299" y="3" width="25" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{serie_serie}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="364" y="3" width="123" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{turma_nome_turma}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="489" y="3" width="59" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{turno_nome_turno}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="575" y="3" width="36" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{turma_num_alunos}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="664" y="3" width="36" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{diario_num_faltosos}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="718" y="3" width="43" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{diario_percentFalta}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="770" y="3" width="18" height="20" forecolor="#000000"/>
+				<textElement/>
+				<text><![CDATA[%]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="30" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="34" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="63" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="802" height="62" backcolor="#78BE78"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="457" y="2" width="124" height="20" forecolor="#FFFFFF"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Resultados Encontrados:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="439" y="22" width="142" height="20" forecolor="#FFFFFF"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Total de Faltas por Período:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="439" y="42" width="142" height="20" forecolor="#FFFFFF"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Média de Faltas do Período:]]></text>
+			</staticText>
+			<textField pattern="###0.0">
+				<reportElement x="585" y="42" width="56" height="20" forecolor="#FFFFFF"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{media}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0">
+				<reportElement x="585" y="22" width="54" height="20" forecolor="#FFFFFF"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{somaFaltosos}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0">
+				<reportElement x="585" y="2" width="56" height="20" forecolor="#FFFFFF"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{contaFaltosos}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="652" y="22" width="66" height="20" forecolor="#FFFFFF"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<text><![CDATA[Data Final:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="652" y="2" width="66" height="20" forecolor="#FFFFFF"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<text><![CDATA[Data Inicial:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="722" y="2" width="77" height="20" forecolor="#FFFFFF"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.util.Date"><![CDATA[$V{dt_inicial}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="722" y="22" width="75" height="20" forecolor="#FFFFFF"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.util.Date"><![CDATA[$V{dt_final}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

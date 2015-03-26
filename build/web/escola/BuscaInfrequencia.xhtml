@@ -1,0 +1,155 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./../padrao.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="corpo">
+       <h:outputStylesheet library="css" name="cssLayout.css"/>
+        <h:outputStylesheet library="css" name="default.css"/>
+        <f:view>
+            <h:form id="formInfreq" prependId="true" acceptcharset="ISO-8859-1">
+                
+                <br/>
+                
+                <p:growl id="messages" showDetail="true"/>
+                
+                 <p:panelGrid columns="2" id="pnlDiario2">
+                    <f:facet name="header">
+                         Acompanhamento da Infrequência - Especifique a Data Inicial e Final
+                    </f:facet>
+                    <h:outputText value="Data Inicial"/>
+                    <p:calendar value="#{diarioFaces.diario.dataInicial}" id="popupCal"   pattern="dd/MM/yyyy"  />
+                       
+                   
+                    <h:outputText value="Data Final"/>
+                    <p:calendar value="#{diarioFaces.diario.dataFinal}" id="popupCal2"   pattern="dd/MM/yyyy"  />
+                 
+                    <h:outputText value="Especifique a Escola.:"/>
+                    <p:selectOneMenu value="#{diarioFaces.diario.escola}" converter="EscolaConverter" required="true" requiredMessage="Compo Obrigatório">
+                        <f:selectItem itemLabel="Selecione" itemValue="#{null}"/>
+                        <f:selectItems value="#{escolaFaces.allEscolas}" var="escola" itemLabel="#{escola.nomeEscola}" itemValue="#{escola}"/>
+                      </p:selectOneMenu>
+                    </p:panelGrid>
+                <br/><br/>
+                <p:panel id="pnlbutton" style="text-align:  center;background-color: #AFAFAF">
+                        <p:commandButton icon="img-find" action="#{diarioFaces.getmudaDiarios}" value="Buscar"  update="dtDiarios" ajax="false" />
+                         
+                    </p:panel>
+                
+               
+           
+            
+                <hr></hr>
+              
+               
+                    
+                 <p:dataTable var="diarios" value="#{diarioFaces.diarios}" resizableColumns="true"   editable="true" id="dtDiarios"
+                     paginator="true" rows="10"
+                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                 rowsPerPageTemplate="5,10,15"> 
+                        <p:ajax event="colResize" update=":formInfreq:messages" listener="#{diarioFaces.onResize}" />   
+                     <f:facet name="header">
+                        Lista de Diários Cadastrados
+                    </f:facet>
+
+                        <p:ajax event="rowEdit" listener="#{diarioFaces.onEdit}" update=":formInfreq:messages" />
+                        <p:ajax event="rowEditCancel" listener="#{diarioFaces.onCancel}" update=":formInfreq:messages"  />
+                        
+                        
+                    
+                    <p:column headerText="Data" style="width:30px;text-align: center">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{diarios.data_diario}"  >
+                                    <f:convertDateTime pattern="dd/MM/yyyy" dateStyle="default"/>
+                                </h:outputText>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:calendar value="#{diarios.data_diario}" id="popupCal"  required="true" requiredMessage="Campo Obrigatório" pattern="dd/MM/yyyy"/>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>    
+                    <p:column headerText="Série" style="width:30px;text-align: center">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{diarios.turma.serie.serie}" />
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{diarios.turma.serie.serie}" style="width:30%" />
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column headerText="Turno" style="width:60px;text-align: center">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{diarios.turma.turno.nome_turno}" />
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{diarios.turma.turno.nome_turno}" style="width:100%" />
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                     <p:column headerText="Turma" style="width:100px;text-align: center">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{diarios.turma.nome_turma}" />
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{diarios.turma.nome_turma}" style="width:100%" />
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column headerText="Qtde. Alunos" style="width:15px;text-align: center">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{diarios.turma.num_alunos}" />
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{diarios.turma.num_alunos}" style="width:100%" />
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                        <p:column headerText="Faltosos" style="width:80px;text-align: center">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{diarios.num_faltosos}" />
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{diarios.num_faltosos}" style="width:100%" />
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                        
+                        <p:column headerText="% de Faltosos" style="width:100px;text-align: center">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{diarios.percentFalta}" />
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{diarios.percentFalta}" style="width:100%" />
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    
+                                   
+                      <p:column headerText="Editar - Apagar" style="width:150px;text-align: center">
+                                        <p:rowEditor  />
+                                       
+                                        <p:commandButton action="#{diarioFaces.delDiarios}"   ajax="false" update="formInfreq:dtDiarios"  icon="ui-icon-trash">
+                                            <f:setPropertyActionListener target="#{diarioFaces.diario}" value="#{diarios}"/>
+                                        </p:commandButton>
+
+                                        
+                    </p:column>
+                    
+                </p:dataTable>
+               
+            </h:form>
+        </f:view>
+    </ui:define>
+
+</ui:composition>

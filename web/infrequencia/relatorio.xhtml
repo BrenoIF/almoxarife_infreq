@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./../padrao.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="corpo">
+<h:outputStylesheet library="css" name="cssLayout.css"/>
+        <h:outputStylesheet library="css" name="default.css"/>
+
+        <f:view>
+            <h:form  acceptcharset="ISO-8859-1">
+
+                <br/>
+
+                <p:growl id="messages" showDetail="true"/>
+
+                <p:panelGrid columns="2" id="pnlDiario2">
+                    <f:facet name="header">
+                    Relatório Geral - Preencha todos os campos
+                    </f:facet>
+                    <h:outputText value="Data Inicial"/>
+                    <p:calendar value="#{diarioFaces.selectedDiario.dataInicial}" id="popupCal"  required="true" requiredMessage="Campo Obrigatório" pattern="dd/MM/yyyy"/>
+                    
+                  
+                    <h:outputText value="Data Final"/>
+                    <p:calendar value="#{diarioFaces.selectedDiario.dataFinal}" id="popupCal2"  required="true" requiredMessage="Campo Obrigatório" pattern="dd/MM/yyyy" />
+                    
+
+                    <h:outputText value="Especifique a Escola.:"/>
+                    <p:selectOneMenu value="#{diarioFaces.selectedDiario.escola}" converter="EscolaConverter" required="true" requiredMessage="Compo Obrigatório" label="Selecione sua escola">
+                        
+                        <f:selectItems value="#{escolaFaces.todasEscolas}" var="escola" itemLabel="#{escola.nomeEscola}" itemValue="#{escola}"/>
+                    </p:selectOneMenu>
+                </p:panelGrid>
+                <br/><br/>
+                <p:commandButton actionListener="#{diarioFaces.gerarRelatorio}" value="Gerar Relatório" ajax="false" onclick="this.form.target='_blank'" />
+            </h:form>
+ <br/><br/>
+        </f:view>
+    </ui:define>
+
+</ui:composition>

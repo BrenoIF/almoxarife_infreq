@@ -1,0 +1,6 @@
+.btnCadastro{
+        background-image: url("#{resource['icons/file.gif']}");
+        height: 5px;
+        width: 5px;
+          
+}

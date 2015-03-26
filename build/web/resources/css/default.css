@@ -1,0 +1,54 @@
+body {
+    background-color: #ffffff;
+    font-size: 12px;
+    font-family: Verdana, "Verdana CE",  Arial, "Arial CE", "Lucida Grande CE", lucida, "Helvetica CE", sans-serif;
+    color: #000000;  
+    margin: auto;
+    margin: 3px 86px 0px 88px;
+}
+
+h1 {
+    font-family: Arial, "Arial CE", "Lucida Grande CE", lucida, "Helvetica CE", sans-serif;
+    border-bottom: 1px solid #AFAFAF; 
+    font-size:  16px;
+    font-weight: bold;
+    margin: 0px;
+    padding: 0px;
+    color: #D20005;
+}
+
+a:link, a:visited {
+  color: #045491;
+  font-weight : bold;
+  text-decoration: none;
+}
+
+a:link:hover, a:visited:hover  {
+  color: #045491;
+  font-weight : bold;
+  text-decoration : underline;
+}
+.btnCadastro{
+background-image: url("#{resource['icons/file.gif']}")
+    !important;
+        height: 5px;
+        width: 5px;
+       
+          
+}
+/* PERSONALIZANDO OS ÍCONES DO SISTEMA*/
+.img-new-file { background-image: url('../icons/file.gif') !important; }
+.img-folder-open { background-image: url('../icons/infreq2_16x16.png') !important; }
+.img-admin{ background-image: url('../icons/admin2_16x16.png') !important;  }
+.img-escola{ background-image: url('../icons/escola_16x16.png') !important;  }
+.img-report-new{ background-image: url('../icons/report_new_16x16.png') !important;  }
+.img-help{ background-image: url('../icons/help_16x16.png') !important;  }
+.img-exit{ background-image: url('../icons/sair_16x16.png')  !important; }
+.img-add{ background-image: url('../icons/add_16x16.png')  !important; }
+.img-edit{ background-image: url('../icons/edit_16x16.png')  !important; }
+.img-delete{ background-image: url('../icons/lixeira_16x16.png')  !important; }
+.img-save{ background-image: url('../icons/save_16x16.png')  !important; }
+.img-find{ background-image: url('../icons/lupa_16x16.png')  !important; }
+.img-acomp-infreq{ background-image: url('../icons/acomp_infreq_16x16.png')  !important; }
+.img-new-infreq{ background-image: url('../icons/addInfreq_16x16.png')  !important; }
+.img-new-Report{ background-image: url('../icons/lupa2_16x16.png')  !important; }

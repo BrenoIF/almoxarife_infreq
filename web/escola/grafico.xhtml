@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                template="./../padrao.xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="corpo">
+        <f:view>
+            <h:form  acceptcharset="ISO-8859-1" id="grafic">
+
+                <br/>
+
+                <p:growl id="messages" showDetail="true"/>
+
+                <p:panelGrid columns="2" id="pnlDiario2">
+                    <f:facet name="header">
+                    Gráficos
+                    </f:facet>
+                    <h:outputText value="Data Inicial"/>
+                    <p:calendar value="#{graficoFaces.selectedGrafico.dataInicial}" id="popupCal"  required="true" requiredMessage="Campo Obrigatório" pattern="dd/MM/yyyy"/>
+                    
+                  
+                    <h:outputText value="Data Final"/>
+                    <p:calendar value="#{graficoFaces.selectedGrafico.dataFinal}" id="popupCal2"  required="true" requiredMessage="Campo Obrigatório" pattern="dd/MM/yyyy" />
+                    
+
+                    <h:outputText value="Especifique a Escola.:"/>
+                    <p:selectOneMenu value="#{graficoFaces.selectedEscola}" converter="EscolaConverter" required="true" requiredMessage="Compo Obrigatório" label="Selecione sua escola">
+                        
+                        <f:selectItems value="#{escolaFaces.allEscolas}" var="escola" itemLabel="#{escola.nomeEscola}" itemValue="#{escola}"/>
+                    </p:selectOneMenu>
+                </p:panelGrid>
+                <br/><br/>
+                <p:commandButton actionListener="#{graficoFaces.changeGraficoFaltas}" value="Gerar Relatório" ajax="false"  />
+                
+                <br/><br/>
+              
+            </h:form>
+            
+        </f:view>
+    </ui:define>
+
+</ui:composition>

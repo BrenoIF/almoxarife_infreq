@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./../../padrao.xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="corpo">
+        <f:view>
+            <h:form id="formInfreq">
+                
+                <p:dataTable var="diario" value="#{diarioFaces.diarios}" resizableColumns="true" editable="true" id="dtDiarios"
+                     paginator="true" rows="10"
+                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                 rowsPerPageTemplate="5,10,15"> 
+                    <p:ajax event="colResize" update=":formInfreq:messages" listener="#{diarioFaces.onResize}" /> 
+                     <f:facet name="header">
+                        Lista de Turmas por Escola
+                    </f:facet>
+
+                    <p:ajax event="rowEdit" listener="#{diarioFaces.onEdit}" update=":formInfreq:messages" />
+                    <p:ajax event="rowEditCancel" listener="#{diarioFaces.onCancel}" update=":formInfreq:messages"  />
+
+                    <p:column headerText="Escola" style="width:125px;text-align: center">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{diario.escola.nome}" />
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{diario.escola.nome}" style="width:100%" />
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    
+                    <p:column headerText="Data" style="width:125px;text-align: center">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{diario.data}" >
+                                    
+                                </h:outputText>
+                            </f:facet>
+                            <f:facet name="input">
+                                <h:outputText value="#{diario.data}" style="width:100%" >
+                                   
+                                </h:outputText>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                     <p:column headerText="Série" style="width:125px;text-align: center">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{diario}" />
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{diario.serie.serie}" style="width:100%" />
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    
+                    
+                     <p:column headerText="Turma" style="width:125px;text-align: center">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{diario.turma.turma}" />
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{diario.turma.turma}" style="width:100%" />
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column headerText="Turno" style="width:125px;text-align: center">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{diario.turno.turno}" />
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{diario.turno.turno}" style="width:100%" />
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    
+                    <p:column headerText="Qtde. Alunos da turma" style="width:125px;text-align: center">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{diario.turma.num_alunos}" />
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{diario.turma.num_alunos}" style="width:100%" />
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    
+                    <p:column headerText="Número de Faltosos" style="width:125px;text-align: center">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{diario.turma.num_alunos}" />
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{diario.turma.num_alunos}" style="width:100%" />
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    
+                    
+                                   
+                      <p:column headerText="Editar - Apagar" style="width:50px;text-align: center">
+                                        <p:rowEditor />
+                                        <h:outputText value="        "/>
+                                        <p:commandButton action="#{diarioFaces.delDiarios}" value="Apagar"  ajax="false" update="dtTurmas">
+                                            <f:setPropertyActionListener target="#{diarioFaces.selectedDiario}" value="#{diario}"/>
+                                        </p:commandButton>
+
+                                        
+                    </p:column>
+                    
+                </p:dataTable>
+            </h:form>
+        </f:view>
+    </ui:define>
+
+</ui:composition>

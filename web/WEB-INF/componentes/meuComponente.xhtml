@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:andii="http://javasemcafe.blogspot.com"
+      xmlns:wsosft="http://www.springframework.org/security/facelets/tags"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:component>
+        
+        <h:form>
+            <p:growl id="messages"/>
+
+
+
+            <p:menubar autoDisplay="false">
+
+
+                <wsosft:ifAnyGranted roles="ROLE_ADMIN">
+                
+                    
+               
+                    <p:submenu label="Infrequência" icon="img-folder-open" >
+                    
+                        <p:submenu label="Cadastros"   >
+                        <p:submenu label="Escola" >
+                            <p:menuitem value="Nova Escola" action="#{escolaFaces.startAddEscola}" ajax="false"   />
+                            <p:menuitem value="Listar Escolas" url="/infrequencia/ListaEscolas.jsf"  />
+                           
+                         </p:submenu>
+
+
+                        <p:submenu label="Turmas"  >
+                            <p:menuitem value="Nova Turma"  action="#{turmasFaces.startAddTurma}" ajax="false" />
+                            
+                        </p:submenu>
+                            <p:submenu label="Série"  >
+                            <p:menuitem value="Nova Série"  action="#{seriefaces.startAddSeries}" ajax="false" />
+                            
+
+                        </p:submenu>
+
+                        <p:submenu label="Turnos"  >
+                            <p:menuitem value="Novo Turno"  action="#{turnoFaces.startAddTurno}" ajax="false" />
+                            <p:menuitem value="Listr Turnos" url="/infrequencia/ListaTurnos.jsf" />
+
+                        </p:submenu>
+
+                    </p:submenu>
+
+                    
+
+                </p:submenu>
+                    <p:submenu label="Admin" icon="img-admin">
+                    <p:submenu label="Adiçao de usuários" >
+
+                        <p:menuitem value="Novo Usuário"    action="#{usuarioFace.startAddUsuario}" ajax="false"  />
+                        <p:menuitem value="Relatório Geral"  action="#{diarioFaces.startRelatorioAdminData}" ajax="false" /> 
+                        <p:menuitem value="Relatório por Série"  action="#{diarioFaces.startRelatorioAdminSerie}" ajax="false" />
+                        <p:menuitem value="Relatório por Turno"  action="#{diarioFaces.startRelatorioAdminTurno}" ajax="false" /> 
+
+                    </p:submenu>
+
+                </p:submenu>
+                 </wsosft:ifAnyGranted>    
+                <p:submenu label="Escola" icon="img-escola">
+                    <p:menuitem value="Infrequência" action="#{diarioFaces.startAddDiario}"  ajax="false" icon="img-new-infreq" />
+                    <p:menuitem value="Acompanhamento"  action="#{diarioFaces.startAddFindInfrequencia}" ajax="false" icon="img-acomp-infreq" />
+                   
+
+                </p:submenu>
+                <p:submenu label="Relatórios" icon="img-report-new">
+                     <p:menuitem value="Relatório Geral"  action="#{diarioFaces.startRelatorioData}" ajax="false" /> 
+                    <p:menuitem value="Relatório por Série"  action="#{diarioFaces.startRelatorioSerie}" ajax="false" />
+                    <p:menuitem value="Relatório por Turno"  action="#{diarioFaces.startRelatorioTurno}" ajax="false" /> 
+                    <p:menuitem value="Gráfico"  action="#{graficoFaces.startAddGraficos}" ajax="false" /> 
+                </p:submenu>
+                
+                <p:submenu label="Ajuda" style="text-align: right" icon="img-help">
+                    <p:menuitem value="Comunicar Problema" url="/escola/ajuda.jsf"  ajax="false" />
+                   
+                   
+
+                </p:submenu>
+                <p:menuitem value="Sair"  icon="img-exit"  url="/j_spring_security_logout" action="http://187.76.147.150:8081/Sainf/" ajax="false"/>
+              
+               
+            </p:menubar>
+
+
+        </h:form>
+    </ui:component>
+</html>

@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<!-- =========== FULL CONFIGURATION FILE ================================== -->
+
+<faces-config version="2.1"
+    xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_1.xsd">
+
+<converter>
+        <converter-id>CategoriaConverter</converter-id>
+        <converter-class>Converter.CategoriaConverter</converter-class>
+    </converter>
+    <converter>
+        <converter-id>ProdutoConverter</converter-id>
+        <converter-class>Converter.ProdutoConverter</converter-class>
+    </converter>
+    <converter>
+        <converter-id>ProdutoConverter2</converter-id>
+        <converter-class>Converter.ProdutoConverter2</converter-class>
+    </converter>
+    <converter>
+        <converter-id>ProdutoConverterByNome</converter-id>
+        <converter-class>Converter.ProdutoConverterByNome</converter-class>
+    </converter>
+     <converter>
+        <converter-id>FornecedorConverter</converter-id>
+        <converter-class>Converter.FornecedorConverter</converter-class>
+    </converter>
+    <converter>
+        <converter-id>UsuarioConverter</converter-id>
+        <converter-class>Converter.UsuarioConverter</converter-class>
+    </converter>
+    <converter>
+        <converter-id>EscolaConverter</converter-id>
+        <converter-class>Converter.EscolaConverter</converter-class>
+    </converter>
+    <converter>
+        <converter-id>TurmaConverter</converter-id>
+        <converter-class>Converter.TurmaConverter</converter-class>
+    </converter>
+     <converter>
+        <converter-id>SerieConverter</converter-id>
+        <converter-class>Converter.SerieConverter</converter-class>
+    </converter>
+    <converter>
+        <converter-id>TurnoConverter</converter-id>
+        <converter-class>Converter.TurnoConverter</converter-class>
+    </converter>
+</faces-config>

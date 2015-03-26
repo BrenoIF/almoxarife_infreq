@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                template="./../padrao.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html">
+    
+    <ui:define name="corpo">
+        Seja Bem-Vindo:  <b><h:outputText value="#{usuarioFace.selectedUsuario.name}"/></b>
+        
+        <div id="corpo">
+           
+            
+            <div id="titulo" style="text-align: center; height: 250px">
+                <h2>SISTEMA DE ACOMPANHAMENTO DE INFREQUÊNCIA ESCOLAR</h2>
+               
+            </div>
+        </div> 
+        Faça logout <a href="../j_spring_security_logout">clicando aqui</a>.
+
+    </ui:define>
+
+</ui:composition>

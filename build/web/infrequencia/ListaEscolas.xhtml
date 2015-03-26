@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+               template="./../padrao.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="corpo">
+        <h:outputStylesheet library="css" name="cssLayout.css"/>
+        <h:outputStylesheet library="css" name="default.css"/>
+        <f:view>
+            <h:form id="formlistaEscolas" prependId="false">
+                <br/>
+                <p:growl id="messages" showDetail="true"/>
+
+                <p:dataTable var="escola" value="#{escolaFaces.carregaEscolas}" editable="true">
+                    <f:facet name="header">
+                        Lista de Escolas Cadastradas
+                    </f:facet>
+
+                    <p:ajax event="rowEdit" listener="#{escolaFaces.onEdit}" update=":formlistaEscolas:messages" />
+                    <p:ajax event="rowEditCancel" listener="#{escolaFaces.onCancel}" update=":formlistaEscolas:messages"  />
+
+                    <p:column headerText="Nome" style="width:125px;text-align: center">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{escola.nomeEscola}" />
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{escola.nomeEscola}" style="width:100%" />
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    
+                     <p:column headerText="INEP" style="width:125px;text-align: center">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{escola.inep}" />
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{escola.inep}" style="width:100%" />
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    
+                   <!--   <p:column headerText="Editar - Apagar" style="width:50px;text-align: center">
+                                        <p:rowEditor />
+                                        <h:outputText value="        "/>
+                                        <p:commandButton action="#{escolaFaces.removeEscola}" value="Apagar"  ajax="false">
+                                            <f:setPropertyActionListener target="#{escolaFaces.selectedEscola}" value="#{escola}"/>
+                                        </p:commandButton>
+
+                                        
+                    </p:column>-->
+                    
+                </p:dataTable>
+            </h:form>
+
+
+        </f:view>
+    </ui:define>
+
+</ui:composition>

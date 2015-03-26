@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./../padrao.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:wsosft="http://www.springframework.org/security/facelets/tags"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="corpo">
+ 
+        <h:outputStylesheet library="css" name="cssLayout.css"/>
+        <h:outputStylesheet library="css" name="default.css"/>
+     <f:view>
+            <wsosft:ifAnyGranted roles="ROLE_ADMIN">
+             <h:form id="formSerie" prependId="false" acceptcharset="ISO-8859-1">
+                <p:growl id="messages2" showDetail="true"/> 
+                <br/>
+                <p:panelGrid columns="2" id="pnlAddTurmas">
+                    <f:facet name="header">
+                        Cadastro de Serie
+                    </f:facet>
+
+                   
+                    
+
+                    <h:outputText value="Serie.:"/>
+                    <p:inputText value="#{seriefaces.selectedSerie.serie}" id="serie" size="1" maxlength="1" />
+
+                </p:panelGrid> 
+                <br/>
+                <br/>
+                <p:panel id="pnlbutton" style="text-align:  center;background-color: #AFAFAF">
+                    <p:commandButton action="#{seriefaces.finishAddSerie}" value="Gravar Serie"  update="messages2" style="background-color: slategray"/>
+                </p:panel>
+                
+                 <br/>
+                <br/>
+                <p:dataTable var="serie" value="#{seriefaces.allSeries}" editable="true" id="dtSerie"
+                     paginator="true" rows="10"
+                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                 rowsPerPageTemplate="5,10,15"> 
+                     
+                     <f:facet name="header">
+                        Lista de Série por Escola
+                    </f:facet>
+
+                     <p:ajax event="rowEdit" listener="#{seriefaces.onEdit}" update=":formSerie:messages2" />
+                     <p:ajax event="rowEditCancel" listener="#{seriefaces.onCancel}" update=":formSerie:messages2"  />
+
+                    <p:column headerText="Série" style="width:125px;text-align: center">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{serie.serie}" />
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{serie.serie}" style="width:100%" />
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    
+                     
+                   
+                    
+                                   
+                      <p:column headerText="Editar - Apagar" style="width:50px;text-align: center">
+                                        <p:rowEditor />
+                                        <h:outputText value="        "/>
+                                        <p:commandButton action="#{seriefaces.removeSerie}" value="Apagar"  ajax="false" update="dtSerie">
+                                            <f:setPropertyActionListener target="#{seriefaces.selectedSerie}" value="#{serie}"/>
+                                        </p:commandButton>
+
+                                        
+                    </p:column>
+                    
+                </p:dataTable>
+
+               
+            </h:form>
+                  </wsosft:ifAnyGranted>
+        </f:view>
+
+    </ui:define>
+
+</ui:composition>

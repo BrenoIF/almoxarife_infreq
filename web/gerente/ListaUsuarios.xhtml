@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./../padrao.xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+    <ui:define name="corpo">
+        <f:view>
+            
+            <h:form id="FormUsers" prependId="false">
+                <p:growl id="messagesUser"/>
+                <br/>
+                <p:dataTable var="usuario" value="#{usuarioFace.usuarios}"  editable="true" id="dtUsers"
+                         paginator="true" rows="10"
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15"> 
+
+                <f:facet name="header">
+                    Lista de Usuários Cadastrados
+                </f:facet>
+
+                    <p:ajax event="rowEdit" listener="#{usuarioFace.onEdit}" update=":FormUsers:messagesUser"/>
+                    <p:ajax event="rowEditCancel" listener="#{usuarioFace.onCancel}" update=":FormUsers:messagesUser"/>
+
+                
+                <p:column headerText="Login" style="width:125px;text-align: center">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{usuario.username}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{usuario.username}" style="width:100%" />
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="Senha" style="width:125px;text-align: center">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{usuario.senha}" />
+
+                        </f:facet>
+                        <f:facet name="input">
+                            <h:outputText value="#{usuario.senha}" style="width:100%" />
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column headerText="Autorizacao" style="width:125px;text-align: center">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{usuario.autority}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{usuario.autority}" style="width:100%" />
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column headerText="Nome Completo" style="width:125px;text-align: center">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{usuario.nome}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{usuario.nome}" style="width:100%" />
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+
+
+
+                <p:column headerText="Editar" style="width:50px;text-align: center">
+                    <p:rowEditor />
+                    <p:commandButton action="#{usuarioFace.removeUsuario}" value="Apagar"   update="dtUsers" >
+                        <f:setPropertyActionListener target="#{usuarioFace.selectedUsuario}" value="#{usuario}" />
+                    </p:commandButton>
+                </p:column>
+
+            </p:dataTable>
+            </h:form>
+            
+        </f:view>
+    </ui:define>
+
+</ui:composition>

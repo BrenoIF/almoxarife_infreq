@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="infrequencia2" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="61"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="dataInicial" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="dataFinal" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     Serie.`serie` AS Serie,
+     diario.`data` AS Data,
+     diario.`num_faltosos` AS Faltosos,
+     diario.`percentFalta` AS Percentual_Faltas,
+     escola.`nome` AS Escola,
+     turno.`turno` AS Turno,
+     turmas.`letra_turma` AS Turma,
+     turmas.`num_alunos` AS Matriculados
+FROM
+     `Serie` Serie INNER JOIN `diario` diario ON Serie.`id` = diario.`serie_id`
+     INNER JOIN `escola` escola ON Serie.`escola_id` = escola.`id`
+     AND escola.`id` = diario.`escola_id`
+     INNER JOIN `turno` turno ON escola.`id` = turno.`escola_id`
+     INNER JOIN `turmas` turmas ON escola.`id` = turmas.`escola_id`
+     AND turmas.`id` = diario.`turmas_id`
+     AND turno.`id` = diario.`turno_id`
+WHERE
+     Data BETWEEN $P{dataInicial} AND $P{dataFinal};]]>
+	</queryString>
+	<field name="Serie" class="java.lang.Integer"/>
+	<field name="Data" class="java.sql.Date"/>
+	<field name="Faltosos" class="java.lang.Integer"/>
+	<field name="Percentual_Faltas" class="java.lang.Double"/>
+	<field name="Escola" class="java.lang.String"/>
+	<field name="Turno" class="java.lang.String"/>
+	<field name="Turma" class="java.lang.String"/>
+	<field name="Matriculados" class="java.lang.Integer"/>
+	<variable name="MEDIA_FALTOSOS" class="java.lang.Double" resetType="Group" resetGroup="Data" incrementType="Group" incrementGroup="Data" calculation="Average">
+		<variableExpression><![CDATA[new Double(($V{SomaFaltosos}.intValue()) / ($V{contaFaltosos}.intValue()))]]></variableExpression>
+		<initialValueExpression><![CDATA[new Double(0)]]></initialValueExpression>
+	</variable>
+	<variable name="SomaFaltosos" class="java.lang.Double" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{Percentual_Faltas}]]></variableExpression>
+		<initialValueExpression><![CDATA[new Double(0)]]></initialValueExpression>
+	</variable>
+	<variable name="contaFaltosos" class="java.lang.Integer" calculation="Count">
+		<variableExpression><![CDATA[$F{Percentual_Faltas}]]></variableExpression>
+	</variable>
+	<group name="Data">
+		<groupExpression><![CDATA[$F{Data}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="58" splitType="Stretch">
+			<image>
+				<reportElement x="219" y="4" width="367" height="48"/>
+				<imageExpression class="java.lang.String"><![CDATA["/Users/alexandrerocha/NetBeansProjects/almoxarife/web/imagens/simbolo_crede.jpg"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="24" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="39" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="19" width="59" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="129" y="19" width="76" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Escola]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="255" y="19" width="43" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Turno]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="334" y="19" width="41" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Serie]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="411" y="19" width="44" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Turma]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="494" y="19" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Matriculados]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="628" y="19" width="52" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Faltosos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="715" y="19" width="60" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Faltosos]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="59" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.util.Date"><![CDATA[$F{Data}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="66" y="0" width="189" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{Escola}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="255" y="0" width="43" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{Turno}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="334" y="0" width="41" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{Serie}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="411" y="0" width="44" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{Turma}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="494" y="0" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{Matriculados}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="628" y="0" width="52" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{Faltosos}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="715" y="0" width="60" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{Percentual_Faltas}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="0" width="802" height="1"/>
+				<graphicElement>
+					<pen lineWidth="1.0" lineColor="#000000"/>
+				</graphicElement>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="71" splitType="Stretch">
+			<textField>
+				<reportElement x="715" y="46" width="60" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{MEDIA_FALTOSOS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="715" y="8" width="60" height="17"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{SomaFaltosos}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="715" y="26" width="60" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{contaFaltosos}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="639" y="8" width="76" height="17"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Soma Faltosos:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="639" y="26" width="76" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Top"/>
+				<text><![CDATA[Conta Faltosos:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="627" y="46" width="88" height="20"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Média Faltosos.:]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

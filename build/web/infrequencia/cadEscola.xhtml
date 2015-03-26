@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./../padrao.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="corpo">
+          <h:outputStylesheet library="css" name="cssLayout.css"/>
+        <h:outputStylesheet library="css" name="default.css"/>
+        <f:view>
+            
+            <h:form id="cad_escola" prependId="false" >
+                <br/>
+                <p:growl id="msgs" showDetail="true"/>
+                
+                <p:panelGrid columns="2" id="pnlAddEscola">
+                    <f:facet name="header">
+                        Cadastro de Escolas
+                    </f:facet>
+                    <h:outputText value="Nome da Escola.:"/>
+                    <p:inputText value="#{escolaFaces.selectedEscola.nomeEscola}" required="true" requiredMessage="Campo Obrigatório" size="70" maxlength="79" />
+                    <h:outputText value="INEP.:"  />
+                    <p:inputText value="#{escolaFaces.selectedEscola.inep}" required="true" requiredMessage="Campo Obrigatório" size="12" maxlength="12"/>
+                    
+                    
+                    
+                </p:panelGrid>   
+                <br/>
+                <br/>
+                
+                   <p:commandButton value="Novo" update="pnlAddEscola" process="@this" actionListener="#{escolaFaces.reset}"  style="background-color: slategray"/>
+                    <p:commandButton action="#{escolaFaces.finishAddEscola}" value="Gravar"  update="msgs" style="background-color: slategray" />
+                
+                
+              
+                <hr></hr>
+                <h:outputStylesheet library="css" name="cssLayout.css"/>
+               
+                <h:outputStylesheet library="css" name="default.css"/>
+       
+           
+                <br/>
+                <p:growl id="messages" showDetail="true"/>
+
+               
+            </h:form>
+            
+            
+            
+        </f:view>
+    </ui:define>
+
+</ui:composition>

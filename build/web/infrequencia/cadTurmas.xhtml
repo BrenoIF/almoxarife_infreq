@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                template="./../padrao.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="corpo">
+          <h:outputStylesheet library="css" name="cssLayout.css"/>
+        <h:outputStylesheet library="css" name="default.css"/>
+        
+        <f:view>
+            
+            <h:form id="cadTurmas" prependId="false" acceptcharset="ISO-8859-1">
+                <p:growl id="messages3" showDetail="true"/> 
+                <br/>
+                <p:panelGrid columns="2" id="pnlAddTurmas">
+                    <f:facet name="header">
+                        Cadastro de Turmas
+                    </f:facet>
+                    <h:outputText value="Escola:"/>
+                    <p:selectOneMenu value="#{turmasFaces.selectedTurma.escola}"  id="selectEscola" converter="EscolaConverter">
+                        <f:selectItem itemLabel="Selecione" itemValue="#{null}"/>
+                        <f:selectItems value="#{escolaFaces.carregaEscolas}" var="esc" itemLabel="#{esc.nomeEscola}" itemValue="#{esc}" />
+                    </p:selectOneMenu>
+                                              
+                                              
+                     <h:outputText value="Turma.:"/>
+                     <p:inputText value="#{turmasFaces.selectedTurma.nome_turma}" id="nometurma" size="30" maxlength="30" />
+                    <h:outputText value="Num. de Alunos.:"/>
+                    <p:inputText value="#{turmasFaces.selectedTurma.num_alunos}" id="numAlunos" size="2" maxlength="2" />
+                    <h:outputText value="Turno"/>
+                    <p:selectOneMenu value="#{turmasFaces.selectedTurma.turno}"  converter="TurnoConverter"  id="selectTurno" >
+                       <f:selectItem itemLabel="Selecione" itemValue="#{null}"/>
+                        <f:selectItems value="#{turnoFaces.allTurnos}"  var="turno" itemLabel="#{turno.nome_turno}" itemValue="#{turno}" />
+                                           
+                    </p:selectOneMenu>
+                     <h:outputText value="Série"/>
+                     <p:selectOneMenu value="#{turmasFaces.selectedTurma.serie}" converter="SerieConverter" id="selectSerie"  >
+                         <f:selectItem itemLabel="Selecione" itemValue="#{null}"/>
+                         <f:selectItems value="#{seriefaces.allSeries}"  var="ser" itemLabel="#{ser.serie}" itemValue="#{ser}" />
+                                           
+                    </p:selectOneMenu>
+                    
+                </p:panelGrid>   
+               <br/>
+               <br/>
+               <p:commandButton value="Novo" update="pnlAddTurmas" process="@this" actionListener="#{turmasFaces.reset}"  style="background-color: slategray"/>
+                    <p:commandButton action="#{turmasFaces.finishAddTurma}" value="Gravar Turma"  update="messages3,dtTurmas" style="background-color: slategray"/> 
+                
+                
+               
+         
+           <br/><hr></hr><br/>
+           
+           <p:dataTable var="turmas" value="#{turmasFaces.turmas}" resizableColumns="true"   editable="true" id="dtTurmas"
+                     paginator="true" rows="10"
+                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                 rowsPerPageTemplate="5,10,15"> 
+                     <p:ajax event="colResize" update=":cadTurmas:messages3" listener="#{turmasFaces.onResize}" />   
+                     <f:facet name="header">
+                        Lista de Turmas por Escola
+                    </f:facet>
+
+                     <p:ajax event="rowEdit" listener="#{turmasFaces.onEdit}" update=":cadTurmas:messages3" />
+                     <p:ajax event="rowEditCancel" listener="#{turmasFaces.onCancel}" update=":cadTurmas:messages3"  />
+
+                    <p:column headerText="Escola" style="width:350px;text-align: center">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{turmas.escola.nomeEscola}" />
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{turmas.escola.nomeEscola}" style="width:100%" />
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column headerText="Série" style="width:125px;text-align: center">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{turmas.serie.serie}" />
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{turmas.serie.serie}" style="width:100%" />
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                     <p:column headerText="Turma" style="width:125px;text-align: center">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{turmas.nome_turma}" />
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{turmas.nome_turma}" style="width:100%" />
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column headerText="Qtde. Alunos" style="width:125px;text-align: center">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{turmas.num_alunos}" />
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{turmas.num_alunos}" style="width:100%" />
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    
+                                   
+                      <p:column headerText="Editar - Apagar" style="width:150px;text-align: center">
+                                        <p:rowEditor />
+                                       
+                                        <p:commandButton action="#{turmasFaces.removeTurma}" value="Apagar"  ajax="false" update="dtTurmas">
+                                            <f:setPropertyActionListener target="#{turmasFaces.selectedTurma}" value="#{turmas}"/>
+                                        </p:commandButton>
+
+                                        
+                    </p:column>
+                    
+                </p:dataTable>
+          
+          
+       
+          </h:form> 
+
+            
+
+          
+        </f:view>
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./../padrao.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="corpo">
+        <h:outputStylesheet library="css" name="cssLayout.css"/>
+        <h:outputStylesheet library="css" name="default.css"/>
+
+        <f:view>
+            <br/>
+            <h:form id="formUser" >
+                <p:growl autoUpdate="true" id="messagesUser"/>
+                <p:panelGrid columns="2" id="pnlAddUser">
+                    <f:facet name="header">
+                        Cadastro de Servidores
+                    </f:facet>
+                    <h:outputText value="Login.:"/>
+                    <p:inputText value="#{usuarioFace.usuarioObjeto.username}" />
+                    <h:outputText value="Senha.:" />
+                    <p:inputText value="#{usuarioFace.usuarioObjeto.password}" />
+                    <h:outputText value="Nível de Acesso.:" />
+                    <p:selectOneMenu value="#{usuarioFace.usuarioObjeto.authority}">
+                        <f:selectItem itemLabel="Selecione" itemValue="#{null}" />
+                        <f:selectItems value="#{usuarioFace.authotities}" />
+                    </p:selectOneMenu>
+                    <h:outputText value="INEP.:" />
+                    <p:inputText value="#{usuarioFace.usuarioObjeto.inep}" />
+                    <h:outputText value="Nome Completo.:" />
+                    <p:inputText value="#{usuarioFace.usuarioObjeto.name}" />
+                </p:panelGrid>
+                <br/>
+                <p:commandButton value="Novo" update="pnlAddUser" process="@this" actionListener="#{usuarioFace.reset}" />
+                <p:commandButton action="#{usuarioFace.finishAddUsuario}" value="Gravar"  update="dtUsers"  />
+            
+
+            <br/><br/><br/>
+                 <p:dataTable var="usuario" value="#{usuarioFace.usuarios}"  editable="true" id="dtUsers"
+                         paginator="true" rows="10"
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15"> 
+
+                <f:facet name="header">
+                    Lista de Usuários Cadastrados
+                </f:facet>
+
+                    <p:ajax event="rowEdit" listener="#{usuarioFace.onEdit}" update=":formUser:messagesUser"/>
+                    <p:ajax event="rowEditCancel" listener="#{usuarioFace.onCancel}" update=":formUser:messagesUser"/>
+
+                
+                <p:column headerText="Login" style="width:125px;text-align: center">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{usuario.username}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{usuario.username}" style="width:100%" />
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="Senha" style="width:125px;text-align: center">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{usuario.password}" />
+
+                        </f:facet>
+                        <f:facet name="input">
+                            <h:outputText value="#{usuario.password}" style="width:100%" />
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column headerText="Autorizacao" style="width:125px;text-align: center">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{usuario.authority}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{usuario.authority}" style="width:100%" />
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column headerText="Nome Completo" style="width:125px;text-align: center">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{usuario.name}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{usuario.name}" style="width:100%" />
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="Editar" style="width:50px;text-align: center">
+                    <p:rowEditor />
+                    <p:commandButton action="#{usuarioFace.removeUsuario}" value="Apagar"   update="dtUsers" >
+                        <f:setPropertyActionListener target="#{usuarioFace.selectedUsuario}" value="#{usuario}" />
+                    </p:commandButton>
+                </p:column>
+
+            </p:dataTable>
+            
+            </h:form>
+        </f:view>
+    </ui:define>
+
+</ui:composition>
